@@ -23,17 +23,12 @@ object Match{
                      (draw:Boolean=false):ListBuffer[Log] ={
     if(draw){
       if( firstTeamScore > secondTeamScore){
-        Logger.debug("firstTeam won")
-        Logger.debug(s"firstTeam name  ${firstTeam}")
         Log.upDateWinningTeamPoint(firstTeam)
       }else if(firstTeamScore < secondTeamScore){
-          Logger.debug("secondTeam won")
-          Logger.debug(s"secondTeam name ${secondTeam}")
           Log.upDateWinningTeamPoint(secondTeam)
         }else
           Log.rankTeams()
     }else{
-      Logger.debug(" draw")
       Log.upDrawTeamPoint(firstTeam)
       Log.upDrawTeamPoint(secondTeam)
     }

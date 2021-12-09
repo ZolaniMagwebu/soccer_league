@@ -23,8 +23,6 @@ object Log {
     val findLog:Option[Log] = leagueRanking.filter(x=>x.forTeam.name.equalsIgnoreCase(team.name)).headOption
     val teamRank:Option[Log] = leagueRanking.filter(x=>x.forTeam.name.equalsIgnoreCase(team.name)).map(t => Log(t.forTeam,t.point+3)).headOption
       leagueRanking -= findLog.getOrElse(Log())
-    Logger.debug(s"Removed log for ---> ${findLog}")
-    Logger.debug(s" Add log ++++++> ${teamRank}")
     leagueRanking += teamRank.getOrElse(Log())
 
   }

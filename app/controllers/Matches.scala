@@ -44,10 +44,8 @@ class Matches @Inject()(val controllerComponents: ControllerComponents) extends 
       game => {
         val firstTeam= game.firstTeam
         val secondTeam = game.secondTeam
-        Logger.debug(s"Name of teams ------------------->${firstTeam.name} second--${secondTeam.name}")
         val firstTeamScore = game.firstTeamScore
         val secondTeamScore = game.secondTeamScore
-        Logger.debug(s"Score of teams ------------------->${firstTeamScore} secondScore--${secondTeamScore}")
         val draw = firstTeamScore != secondTeamScore
         Match.findMatchWinner(firstTeam)(secondTeam)(firstTeamScore)(secondTeamScore)(draw)
         Redirect(routes.Matches.leagueRanking)
@@ -61,8 +59,6 @@ class Matches @Inject()(val controllerComponents: ControllerComponents) extends 
       val secondTeamJson = (json \ "secondTeam").validate[String] getOrElse ("")
       val firstTeamScore = (json \ "firstTeamScore").validate[String].getOrElse("0").toInt
       val secondTeamScore = (json \ "secondTeamScore").validate[String].getOrElse("0").toInt
-      Logger.debug(s"Name of teams ------------------->${firstTeamJson} second--${secondTeamJson}")
-      Logger.debug(s"Score of teams ------------------->${firstTeamScore} secondScore--${secondTeamScore}")
       val draw = firstTeamScore != secondTeamScore
       val firstTeam = Team.findByName(firstTeamJson).getOrElse(Team())
       val secondTeam = Team.findByName(secondTeamJson).getOrElse(Team())
