@@ -1,0 +1,56 @@
+ @(matchForm:Form[Match])(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+
+@import views.html.helper._
+@import play.mvc.Http.Request
+
+@title = {Add Game Result}
+@main(title,List(("Match Ranking", routes.Matches.leagueRanking.toString))) {
+     <h1>Please feel in the Game Results</h1>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>
+    <input type="hidden" id="addMatchResult" value =@routes.Matches.apiAdd>
+     @helper.form(routes.Matches.submit, Symbol("class") ->"form-horizontal") {
+         @defining(for(t <- models.Team.teams.toSeq) yield (t.name, t.name)) { teams =>
+            @helper.select(
+                matchForm("firstTeam.name"),
+                teams,
+                Symbol("class") -> "form-control",
+                Symbol("_label") -> "Team One",
+                Symbol("_default") -> "None selected"
+            )
+        }
+        @helper.inputText(matchForm("firstTeamScore"),
+            Symbol("class") -> "form-control",
+            Symbol("_label") -> "Score First Team"
+        )
+
+        @defining(for(t <- models.Team.teams.toSeq) yield (t.name, t.name)) { teams =>
+            @helper.select(
+                matchForm("secondTeam.name"),
+                teams,
+                Symbol("class") -> "form-control",
+                Symbol("_label") -> "Team Two",
+                Symbol("_default") -> "None selected"
+            )
+        }
+        @helper.inputText(matchForm("secondTeamScore"),
+            Symbol("class") -> "form-control",
+            Symbol("_label") -> "Score Second Team"
+        )
+        @if(matchForm.hasErrors) {
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                @matchForm.errors.map { error =>
+                    <li>@error.key - @error.message</li>
+                }
+                </ul>
+            </div>
+        }
+         <div class="actions">
+             <div class="col-xs-2"></div>
+             <input type="submit" id="submit" class="btn btn-primary" value="Insert">
+             <a href="@routes.Matches.leagueRanking" class="btn btn-default">Cancel</a>
+         </div>
+    }
+     <input id="submitApi" type="hidden">
+}
